@@ -82,4 +82,10 @@ YU\YO2LDK BaseStation KN05HQ — local base station
 
 The network currently counts 243+ active nodes across the Western Balkans region, and continues to grow.
 
+<img width="2048" height="932" alt="COMM" src="https://github.com/user-attachments/assets/0975eb3f-361b-476c-9d71-789c738341c2" />
+
+<img width="1746" height="872" alt="DESK" src="https://github.com/user-attachments/assets/4bc30047-992b-47be-85c4-b044c5cf1a81" />
+
+
+
 Developed by YO2LDK · MeshCore EU_868 · May 2026 · SDR-like waterfall interface, animated background mesh network, and many bugs removed — none of it would have been possible without AI help.
