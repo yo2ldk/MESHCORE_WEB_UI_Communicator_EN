@@ -6,6 +6,9 @@ This WEB UI was developed out of the need for a reliable connection when working
 I prefer the serial connection over Bluetooth for stability — the BLE connection is constantly interrupted by drivers, Windows, software, or the companion itself; with serial I have never had a single problem.
 Using this interface is extremely simple (which is exactly why I built it) — no additional software to install, no .bat files, no scripts, no Python, none of the complications that an average user struggles with. Just click the file, the port selection dialog appears, plug in the USB cable, select the detected port and …SUCCESS!!
 You now have a secure, robust and efficient digital communications terminal!
+
+  If you like it, please give a star to project..
+
 Description:
 
 MeshCore WebUI — Companion Radio Interface
