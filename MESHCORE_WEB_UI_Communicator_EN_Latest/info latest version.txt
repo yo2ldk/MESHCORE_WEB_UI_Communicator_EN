@@ -1,0 +1,46 @@
+MeshCore USB WebUI — What's New
+Version: MeshCore-USB-UI · YO2LDK
+
+ Single-File, Zero-Install
+Unlike companion tools that require Python, pip packages, Node.js, scripts, virtual environments or terminal sessions, this WebUI is a single self-contained HTML file. Open it in any Chromium-based browser (Chrome, Edge, Brave) and connect your MeshCore radio over USB — that's it. No installation, no dependencies, no command line. Works on Windows, macOS, Linux and Raspberry Pi OS out of the box.
+
+ Improvements Over Previous Version
+Network & Radio
+
+Fixed CMD_SEND_SELF_ADVERT to use flood mode — your advert now propagates across the full mesh network, not just to direct neighbors
+Correct RESP_STATS_RADIO parsing — SNR, RSSI, TX/RX air-time now show accurate values
+Hop count in received channel messages decoded correctly — the path_len field is now properly masked (& 0x3F), eliminating phantom "68 hops" readings
+GPS coordinates extracted from live advertise packets (PUSH_ADVERT / PUSH_NEW_ADVERT) — newly seen nodes now appear on the map immediately, without waiting for a manual sync
+
+Channels
+
+Up to 14 configurable channels (CH0–CH13), matching modified firmware capacity
+Channel modal now has a scrollable slot list with pinned Cancel/Apply buttons — always reachable regardless of screen height
+Automatic key derivation (SHA-256) for #named public channels
+Channel names read from radio via CMD_GET_CHANNEL_INFO at connect time
+
+Node Management
+
+Automatic node persistence — nodes saved to localStorage silently every 5 seconds after any update, every 2 minutes by interval, and immediately on page close/disconnect
+Automatic restore on startup — all previously seen nodes loaded back instantly before the firmware sync arrives
+Merge on reconnect — after firmware contact sync, backup-only nodes are merged in instead of being overwritten; you keep the full combined list across sessions
+Export nodes as JSON file and import from file — share node databases between PCs
+New DM Picker (✉+ button) — search any node by callsign or hex ID, click to open a direct message instantly
+
+Map
+
+TRACE button replaced with MAP button — shows node position and distance directly from stored GPS data, no unsupported firmware commands involved
+Map title shows calculated distance (meters or km) between your station and the selected node
+Clear (NodeName: no GPS) label when destination has no GPS data
+
+UI & Audio
+
+Sonar ping sound with natural echo decay (~6 fading repeats) for incoming RF packets (nodes/repeaters), distinct from the message notification sound
+TX also produces a sonar ping (slightly higher pitch) on message send and advert broadcast
+RAW panel auto-scroll with 🔒 Auto ↓ toggle — follows latest entries automatically, pauses when you scroll up to read, resumes at bottom
+Light theme fixes: waterfall bar, tab strip, toolbar, RAW panel badges all correctly styled
+Page title and node export filename now correctly evaluate atob() (template literal fix)
+Source obfuscated — callsign embedded non-visibly, not editable from HTML source
+
+
+Compatible with MeshCore firmware v1.16+ on EU_868. Tested on Heltec V2 with up to 1000 contacts and 14 channels.
