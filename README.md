@@ -125,7 +125,7 @@ ROU-CS-SemenicMt-N / SE — repeater on Semenic Peak   * TNX YO2LYN - STEFAN ! *
 ROU-CS-Resita-Bot — node with active bot
 YU\YO2LDK BaseStation KN05HQ — local base station
 
-The network currently counts 243+ active nodes across the Western Balkans region, and continues to grow.
+The network currently counts 777+ active nodes across the Western Balkans region, and continues to grow.
 
 <img width="1919" height="1079" alt="web ui" src="https://github.com/user-attachments/assets/be52b6ef-279e-4ec0-a83e-ea33320ffa5e" />
 
