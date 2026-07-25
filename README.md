@@ -1,6 +1,8 @@
 MESHCORE_WEB_UI_Communicator_EN
 this is a WEB interface for the Meshcore network, with serial companion
 
+LATEST - V2.1
+
 ## Why this exists — and why it's different
 
 This WEB UI was developed out of the need for a reliable connection when working from the shack or the office, for the convenience of using a real keyboard instead of a tiny touch display. I prefer the serial connection over Bluetooth for stability — the BLE connection is constantly interrupted by drivers, Windows, software, or the companion itself; with serial I have never had a single problem.
