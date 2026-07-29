@@ -1,7 +1,17 @@
 MESHCORE_WEB_UI_Communicator_EN
 this is a WEB interface for the Meshcore network, with serial companion
 
-LATEST - V2.1
+LATEST - V2.2
+
+## What's new in V2.2
+
+- **APRS-IS Gateway** — the WebUI can now take the GPS position of your local node (from the companion's `SELF_INFO`, or a manually entered fixed lat/lon for GPS-less modules) and beacon it to APRS-IS on a configurable interval, so your MeshCore station also shows up as a normal APRS tracker/iGate on aprs.fi.
+  - Toggle button (`📡 APRS-IS`) in the topbar to arm/disarm the gateway with one click; right-click (or the same button when unconfigured) opens the settings panel.
+  - Settings: callsign, SSID, APRS-IS passcode (with a one-click "CALC" using the standard public passcode algorithm), server/port, APRS symbol, beacon interval, comment, and an optional fixed manual position for stations without GPS.
+  - Transport is a WebSocket connection to APRS-IS's readwrite port (e.g. `ametx.com:8888` secure) rather than a raw TCP socket, which browsers can't open — this still gives a real "login verified/unverified" confirmation from the server, shown in the RAW panel and in the settings dialog's Test Beacon button.
+- **Stop Waterfall** button next to the waterfall panel — pauses the SDR-like waterfall rendering on demand (useful to save CPU/GPU when you're not watching it) without affecting the rest of the app; click again to resume.
+
+---
 
 ## Why this exists — and why it's different
 
@@ -66,7 +76,7 @@ Both are the same interface; only the default radio plan differs. Frequency/SF/C
 - Anti-flood cooldown (8 seconds between responses)
 - Ignores own TX messages (anti-echo)
 
-### Radio Parameters — live SF / CR / BW / Frequency / TX Power (new)
+### Radio Parameters — live SF / CR / BW / Frequency / TX Power
 
 A dedicated **📻 RADIO** panel lets you change the radio's operating parameters directly from the browser, no firmware reflash needed:
 
@@ -76,7 +86,7 @@ A dedicated **📻 RADIO** panel lets you change the radio's operating parameter
 - One-click **🔁 Reboot Device** (`CMD_REBOOT`, 19): MeshCore firmware persists new radio parameters to NodePrefs but only applies them to the live radio after a reboot — the panel reminds you and can trigger it directly
 - Field-tested: switching a EU_868 node live to the US_915 preset and rebooting correctly moved it off 868 MHz and onto 915 MHz
 
-### Region Scope — real per-channel flood filtering (new)
+### Region Scope — real per-channel flood filtering
 
 Not just a label: this sends the actual companion-protocol command (`CMD_SET_FLOOD_SCOPE_KEY`, code **54**) that MeshCore repeaters use to decide whether to relay a flood packet.
 
@@ -86,10 +96,21 @@ Not just a label: this sends the actual companion-protocol command (`CMD_SET_FLO
 - Only repeaters that are themselves configured for the same region (`region put <name>` / `region allowf <name>` on the repeater's own CLI) will forward that message — everyone else silently drops it. This is genuine network-level segmentation, not client-side filtering.
 - **Requirements:** companion firmware v12+ (MeshCore v1.15.0+) with region support. Leave the field blank for classic, unscoped flood (reaches the whole mesh, as before).
 
+### APRS-IS Gateway
+
+Turns your local MeshCore station into an APRS position beacon, visible on aprs.fi, without any extra hardware or software:
+
+- Reads the GPS fix from the connected companion (`SELF_INFO`); for fixed/GPS-less nodes, a manual lat/lon override can be set instead
+- Builds a standard APRS position packet and sends it on a configurable interval (default 10 min)
+- Connects via APRS-IS's WebSocket "readwrite" port rather than a raw TCP socket (browsers can't open those) — still gets a genuine "verified"/"unverified" login response back from the server, shown in the RAW log
+- One-click enable/disable from the topbar; settings (callsign, SSID, passcode, server/port, symbol, comment, interval, manual position) live in a dedicated panel with a "CALC" passcode helper and a "Test Beacon" button
+- Requires your own licensed callsign and APRS-IS passcode
+
 ### Map and SDR-like waterfall
 
 - Interactive Leaflet map with GPS nodes
 - Real-time waterfall spectrum, tracking the live frequency/SF/BW/CR shown in the header (updates instantly if you change Radio Parameters)
+- **Stop/Resume Waterfall** button to pause the rendering on demand (saves CPU/GPU) without affecting the rest of the app
 - TRACE route visualized graphically on the map
 
 ### Configuration
@@ -99,10 +120,11 @@ Not just a label: this sends the actual companion-protocol command (`CMD_SET_FLO
 - BOT panel: channel, name, keyword, AES key, random key generator button
 - WX weather: configurable weather station with data display
 - Radio panel: frequency / bandwidth / SF / CR / TX power, with EU_868 and USA/Canada presets
+- APRS-IS Gateway panel: callsign/SSID/passcode, server/port, symbol, interval, comment, manual position override
 
 ### Monitoring
 
-- SERIAL RAW with filtering and search — every command sent and every `RESP_OK`/`RESP_ERR` reply is visible here, useful for verifying Radio Parameters and Region Scope actually landed
+- SERIAL RAW with filtering and search — every command sent and every `RESP_OK`/`RESP_ERR` reply is visible here, useful for verifying Radio Parameters and Region Scope actually landed, and for confirming APRS-IS login/delivery status
 - SNR/RSSI/Noise in real time in the bottom status bar
 - Uptime, battery, firmware errors displayed in the topbar
 - Ping/Trace with time measurement and full route display
@@ -116,6 +138,7 @@ Not just a label: this sends the actual companion-protocol command (`CMD_SET_FLO
 - **Firmware:** MeshCore v11+ (v1.15.0+) — v12+ recommended if you want to use Region Scope
 - **Band:** EU_868 (869.618 MHz, SF8, BW62.5, CR8) or US_915 (910.525 MHz, SF7, BW62.5, CR5) out of the box — changeable live from the Radio panel
 - **File:** a single `.html` file — no installation, no server, no external dependencies
+- **APRS-IS Gateway (optional):** a licensed amateur radio callsign and your own APRS-IS passcode
 
 
 The YU/YO CS (Caraș-Severin Romania) Network
