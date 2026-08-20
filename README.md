@@ -1,9 +1,9 @@
 MESHCORE_WEB_UI_Communicator_EN
 this is a WEB interface for the Meshcore network, with serial companion
 
-LATEST - V2.2
+LATEST - V2.3
 
-## What's new in V2.2
+## What's new in V2.3
 
 - **APRS-IS Gateway** — the WebUI can now take the GPS position of your local node (from the companion's `SELF_INFO`, or a manually entered fixed lat/lon for GPS-less modules) and beacon it to APRS-IS on a configurable interval, so your MeshCore station also shows up as a normal APRS tracker/iGate on aprs.fi.
   - Toggle button (`📡 APRS-IS`) in the topbar to arm/disarm the gateway with one click; right-click (or the same button when unconfigured) opens the settings panel.
