@@ -1,7 +1,7 @@
 MESHCORE_WEB_UI_Communicator_EN
 this is a WEB interface for the Meshcore network, with serial companion 
 (NOW with Bluetooth also !!)
-LATEST - V2.3
+LATEST - V2.3  => Please let a Star if you like it
 
 ## What's new in V2.3
 
