@@ -1,7 +1,34 @@
 MESHCORE_WEB_UI_Communicator_EN
 this is a WEB interface for the Meshcore network, with serial companion 
 (NOW with Bluetooth also !!)
-LATEST - V2.3  => Please let a Star if you like it
+LATEST - V2.3.1  => Please let a Star if you like it
+
+## What's new in V2.3.1
+The underlying channel-message send path was hardened: manual messages, bot
+replies, greetings, and alerts now correctly skip the (unsupported, on some
+firmware) flood-scope-key handshake on channels that don't have a region
+scope configured, while still using it correctly on channels that do — this
+fixed intermittent failed deliveries that were unrelated to the alert
+feature itself but affected the same send path.
+
+### Configurable map basemap
+
+The node map and the per-node route map now use a swappable basemap
+provider instead of a single hardcoded tile source, since OpenStreetMap's
+own tile servers block this kind of app and CARTO's free tiles started
+requiring an API key. Open **⚙** in the map panel's header to choose:
+
+- **Esri Dark Gray Canvas** (default) — free, no key needed.
+- **OpenTopoMap** — free, no key needed, more colorful/detailed.
+- **CARTO** — needs a free personal API key (get one at
+  carto.com/basemaps/apikey), with a style picker (Voyager / Positron /
+  Dark Matter). The key is stored only in your own browser and is never
+  written into the file — if you share or publish this HTML, don't fill
+  in your key first; each person should add their own.
+
+Switching providers/styles applies immediately to any map that's open,
+no reload needed.
+
 
 ## What's new in V2.3
 
