@@ -1,8 +1,55 @@
 MESHCORE_WEB_UI_Communicator_EN
 this is a WEB interface for the Meshcore network, with serial companion 
 (NOW with Bluetooth also !!)
-LATEST - V2.3.1  => Please let a Star if you like it
+LATEST - V2.3.2  => Please let a Star if you like it
 
+## What's new in V2.3.2
+
+1. Channel management fixes
+
+Problem: channel names/keys could get mixed up between different companion radios (e.g. sending on #banat on one radio showed as #craiova on another), and the "APPLY" button reported success even when the radio rejected the change.
+
+Fixes:
+
+On every new connection (USB or BLE), the channel table is now reset before querying the radio, so stale names from a previous companion or from browser cache can no longer leak through.
+The 🔑 (private/secured) indicator is now derived from what the currently connected radio actually reports, not from local cache alone.
+#name channels (auto-derived key) and the standard Public channel are now correctly recognized as non-secret and never show the 🔑 lock icon.
+Save now waits for radio confirmation. Applying channel keys, the diagnostic Bot channel, or the Alert Bot channel all now wait for the radio's actual acknowledgement (RESP_OK/RESP_ERR) before reporting success. If the radio rejects a channel or doesn't respond, you'll see a clear warning instead of a false "saved" message.
+Export / Import channels — new ⬇ EXPORT / ⬆ IMPORT buttons in the private-channels (🔑) window, to back up or transfer your channel configuration (name + key + region) as a .json file, same as the existing node export/import.
+2. Node list — timing accuracy
+
+Problem: some nodes appeared "stuck" at the top of the node list, always showing a very recent time even though they hadn't actually transmitted anything in a while.
+
+Fixes:
+
+Fixed a double time-conversion bug in the 30-second refresh timer that could corrupt the displayed relative time.
+Removed a speculative heuristic that tried to estimate "last seen" from a raw uptime counter mismatch between your own radio and a remote node. This could produce a falsely "recent" timestamp for long-uptime nodes (e.g. static repeaters). Displayed times now only come from directly observed events (a real received message/advert) or an absolute timestamp reported by the radio — never a guess.
+3. Real-time Noise Floor (NF) display
+Added a live NF: xx dBm indicator in the waterfall header, right before the existing BW / SF / CR / channel count line.
+The underlying radio-stats polling interval was reduced from 90 seconds to 5 seconds, so NF/RSSI/SNR/airtime figures update much faster.
+4. Block / Ignore users
+
+Two complementary ways to block unwanted senders:
+
+a) Direct Messages (DM) — by node identity
+Every node row in the left-hand list now has a 🚫 BLOCK / ✅ UNBLOCK button.
+Double-click any DM message bubble to open a small menu with:
+↩ Reply (DM) — targets that node for your next message.
+🚫 Block user / ✅ Unblock user.
+Incoming DMs from a blocked node are silently filtered (no popup, no sound) and only noted in the raw log as filtered.
+b) Channel messages — by display name
+
+MeshCore channel/group messages carry no cryptographic sender identity — the shared channel key alone can't tell you who on the channel sent a message. Like other MeshCore clients (e.g. KiekR), this UI relies on the common Name: message convention some senders use.
+
+If an incoming channel message matches the Name: text pattern, the name is now parsed out and shown properly as the sender in the UI (instead of just the channel name).
+That name becomes blockable the same way: double-click the message → 🚫 Block user, or open the 🚫 Blocked panel and type the name directly (no advert/prior contact required).
+Future messages starting with that name, on any channel, are filtered automatically.
+Limitation: if a sender doesn't prefix their messages with a name at all, there's no protocol-level way to identify or block them specifically — this applies to any MeshCore client, not just this one. Keyword-based filtering would be a separate feature if ever needed.
+Managing blocks
+New 🚫 button in the bottom send bar (next to the message box, before TX) opens the Blocked Users panel: shows everyone currently blocked (node-based and name-based), with one-click unblock, plus a manual entry field that accepts either a hex node ID or a plain display name.
+5. UI layout tweaks
+Moved the 🚫 Blocked button out of the top toolbar (where it was overlapping the node counter) into the bottom send bar, right before the TX button.
+Shortened the message input placeholder from "Send message... [ENTER]" to "Message... [ENTER]" to free up space.
 ## What's new in V2.3.1
 The underlying channel-message send path was hardened: manual messages, bot
 replies, greetings, and alerts now correctly skip the (unsupported, on some
@@ -30,7 +77,7 @@ Switching providers/styles applies immediately to any map that's open,
 no reload needed.
 
 
-## What's new in V2.3
+## What's new in V2.3.1
 
 - **APRS-IS Gateway** — the WebUI can now take the GPS position of your local node (from the companion's `SELF_INFO`, or a manually entered fixed lat/lon for GPS-less modules) and beacon it to APRS-IS on a configurable interval, so your MeshCore station also shows up as a normal APRS tracker/iGate on aprs.fi.
   - Toggle button (`📡 APRS-IS`) in the topbar to arm/disarm the gateway with one click; right-click (or the same button when unconfigured) opens the settings panel.
